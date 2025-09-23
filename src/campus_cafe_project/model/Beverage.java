@@ -16,6 +16,23 @@ public class Beverage extends Product
 		this.beverageSize = beverageSize;
 	}
 	
+	public String getSize()
+	{
+		if(beverageSize == BeverageSize.SMALL)
+		{
+			return "Small: +$0.00";
+		}
+		else if(beverageSize == BeverageSize.MEDIUM)
+		{
+			return "Medium: +$0.50";
+		}
+		else if(beverageSize == BeverageSize.LARGE)
+		{
+			return "Large: +$1.00";
+		}
+		return null;
+	}
+	
 	public BigDecimal price() 
 	{
 		BigDecimal price = this.getBasePrice().add(beverageSize.getSurcharge());

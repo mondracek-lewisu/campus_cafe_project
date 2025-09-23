@@ -34,11 +34,10 @@ public class Main
 			{
 				BeverageSize beverageSize = getBeverageSize();
 				((Beverage) item).setBeverageSize(beverageSize);
+				System.out.println(String.format("\nYou selected: %s -- %s -- $%.2f -- %s -- x%d -- total price: $%.2f",
+						item.getId(), item.getName(), item.getBasePrice(), ((Beverage)item).getSize(), item.getQuantity(), item.price()));
 			}
-			
-			System.out.println(String.format("\nYou selected: %s -- %s -- $%.2f -- x%d -- total price: $%.2f", item.getId(), item.getName(), item.getBasePrice(), item.getQuantity(), item.price()));
 		}
-		
 		while(!menuOption.equals("end"));
 	}
 	
@@ -47,11 +46,18 @@ public class Main
 		System.out.print("Please Select (S)mall, (M)eduim, or (L)arge): ");
 		String sizeOption = sc.nextLine();
 		sizeOption = sizeOption.trim().toUpperCase();
-		if(sizeOption.equals("M") | sizeOption.startsWith("MEDIUM"))
+		if(sizeOption.equals("M") || sizeOption.startsWith("MEDIUM"))
 		{
 			return BeverageSize.MEDIUM;
 		}
-		
-		
+		else if(sizeOption.equals("S") || sizeOption.startsWith("SMALL"))
+		{
+			return BeverageSize.SMALL;
+		}
+		else if(sizeOption.equals("L") || sizeOption.startsWith("LARGE"))
+		{
+			return BeverageSize.LARGE;
+		}
+		return null;
 	}
 }
