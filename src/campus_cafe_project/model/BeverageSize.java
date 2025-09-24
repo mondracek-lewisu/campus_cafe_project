@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 
 public enum BeverageSize 
 {
-	
-	SMALL(BigDecimal.ZERO),
+	SMALL(BigDecimal.valueOf(0)),
 	MEDIUM(BigDecimal.valueOf(0.5)),
 	LARGE(BigDecimal.valueOf(1));
 	

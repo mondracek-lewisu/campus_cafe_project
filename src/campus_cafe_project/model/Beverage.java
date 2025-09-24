@@ -16,7 +16,24 @@ public class Beverage extends Product
 		this.beverageSize = beverageSize;
 	}
 	
-	public String getSize()
+	public String getModifier()
+	{
+		if(beverageSize == BeverageSize.SMALL)
+		{
+			return "Small";
+		}
+		else if(beverageSize == BeverageSize.MEDIUM)
+		{
+			return "Medium";
+		}
+		else if(beverageSize == BeverageSize.LARGE)
+		{
+			return "Large";
+		}
+		return null;
+	}
+	
+	public String getModifierExtra()
 	{
 		if(beverageSize == BeverageSize.SMALL)
 		{

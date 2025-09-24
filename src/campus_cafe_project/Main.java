@@ -10,14 +10,22 @@ public class Main
 	
 	public static void main(String[] args) 
 	{	
-		
+		Order order = new Order();
 		Menu menu = new Menu();
 		String menuOption = "";
+		System.out.println("\nWelcome to the Campus Cafe\n");
+		
 		do
 		{
 			menu.displayMenu();
-			System.out.print("\nPlease make selection: ");
+			System.out.print("\nPlease make a selection (or type 'end' to finish): ");
 			menuOption = sc.nextLine();
+			
+			if(menuOption.trim().equalsIgnoreCase("end"))
+			{
+				break;
+			}
+			
 			Product item = menu.getMenuItem(menuOption);
 			
 			if(item == null)
@@ -30,14 +38,18 @@ public class Main
 			int quantity = sc.nextInt();
 			sc.nextLine();
 			item.setQuantity(quantity);
+			
 			if(item instanceof Beverage)
 			{
 				BeverageSize beverageSize = getBeverageSize();
 				((Beverage) item).setBeverageSize(beverageSize);
-				System.out.println(String.format("\nYou selected: %s -- %s -- $%.2f -- %s -- x%d -- total price: $%.2f",
-						item.getId(), item.getName(), item.getBasePrice(), ((Beverage)item).getSize(), item.getQuantity(), item.price()));
 			}
+			System.out.println(String.format("\nYou selected: %s -- %s -- $%.2f -- %s -- x%d -- total price: $%.2f\n",
+					item.getId(), item.getName(), item.getBasePrice(), item.getModifierExtra(), item.getQuantity(), item.price()));
+			order.addLineItem(item);
+			
 		}
+		
 		while(!menuOption.equals("end"));
 	}
 	

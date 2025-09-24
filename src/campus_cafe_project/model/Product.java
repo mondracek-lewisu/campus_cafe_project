@@ -42,4 +42,6 @@ public abstract class Product
 	}
 	
 	public abstract BigDecimal price();
+	public abstract String getModifier();
+	public abstract String getModifierExtra();
 }

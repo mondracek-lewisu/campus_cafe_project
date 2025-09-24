@@ -23,8 +23,7 @@ public class Menu
 	
 	public void displayMenu() 
 	{	
-		System.out.println("\nWelcome to the Campus Cafe\n");
-		System.out.println("Please select from the menu options below . . .");
+		System.out.println("Select from the menu options below . . .");
 		
 		for(Product item: items)
 		{
