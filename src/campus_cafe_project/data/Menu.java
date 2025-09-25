@@ -19,6 +19,10 @@ public class Menu
 		items.add(beverage);	
 		beverage = new Beverage("B02", "Tea", BigDecimal.valueOf(3.50));
 		items.add(beverage);
+		Food food = new Food("F01", "Breakfast Sandwich", BigDecimal.valueOf(4.50));
+		items.add(food);
+		food = new Food("F02", "Bagel", BigDecimal.valueOf(4.00));
+		items.add(food);
 	}
 	
 	public void displayMenu() 
@@ -40,7 +44,6 @@ public class Menu
 				return item;
 			}
 		}
-		
 		return null;
 	}
 }

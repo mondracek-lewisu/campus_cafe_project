@@ -36,21 +36,42 @@ public class Main
 			
 			System.out.print("Quantity: ");
 			int quantity = sc.nextInt();
+			while(quantity<=0)
+			{
+				System.out.println("Invalid Quantity");
+				System.out.print("Quantity: ");
+				quantity = sc.nextInt();
+			}
 			sc.nextLine();
 			item.setQuantity(quantity);
 			
 			if(item instanceof Beverage)
 			{
 				BeverageSize beverageSize = getBeverageSize();
+				while(beverageSize == null)
+				{
+					System.out.println("Invalid Entry");
+					beverageSize = getBeverageSize();
+				}
 				((Beverage) item).setBeverageSize(beverageSize);
+			}
+			if(item instanceof Food)
+			{
+				FoodAddon foodAddon = getFoodAddon();
+				while(foodAddon == null)
+				{
+					System.out.println("Invalid Entry");
+					foodAddon = getFoodAddon();
+				}
+				((Food) item).setFoodAddon(foodAddon);
 			}
 			System.out.println(String.format("\nYou selected: %s -- %s -- $%.2f -- %s -- x%d -- total price: $%.2f\n",
 					item.getId(), item.getName(), item.getBasePrice(), item.getModifierExtra(), item.getQuantity(), item.price()));
 			order.addLineItem(item);
-			
 		}
 		
 		while(!menuOption.equals("end"));
+		order.printReceipt();
 	}
 	
 	private static BeverageSize getBeverageSize()
@@ -69,6 +90,30 @@ public class Main
 		else if(sizeOption.equals("L") || sizeOption.startsWith("LARGE"))
 		{
 			return BeverageSize.LARGE;
+		}
+		return null;
+	}
+	
+	private static FoodAddon getFoodAddon()
+	{
+		System.out.println("Please select one of the following addons:\nAdd (C)heese\nNo (M)eat\n(B)oth Cheese and No Meat\n(N)o Addon");
+		String addonOption = sc.nextLine();
+		addonOption = addonOption.trim().toUpperCase();
+		if(addonOption.equals("C") || addonOption.startsWith("ADD CHEESE"))
+		{
+			return FoodAddon.CHEESE;
+		}
+		if(addonOption.equals("M") || addonOption.startsWith("NO MEAT"))
+		{
+			return FoodAddon.NOMEAT;
+		}
+		if(addonOption.equals("B") || addonOption.startsWith("BOTH CHEESE AND NO MEAT"))
+		{
+			return FoodAddon.BOTH;
+		}
+		if(addonOption.equals("N") || addonOption.startsWith("NO ADDON"))
+		{
+			return FoodAddon.NONE;
 		}
 		return null;
 	}

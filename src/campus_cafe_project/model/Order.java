@@ -24,9 +24,33 @@ public class Order
 		
 		for(LineItem lineItem : lineItems)
 		{
-			salesTax = salesTax.add((lineItem.getCost().multiply(BigDecimal.valueOf(lineItem.getQuantity()))).multiply(BigDecimal.valueOf(.085)));
+			salesTax = salesTax.add(lineItem.getCost().multiply(BigDecimal.valueOf(.085)));
 		}
 		
 		return salesTax;
-	}	
+	}
+	
+	public BigDecimal calculateSubtotal()
+	{
+		BigDecimal subtotal = BigDecimal.valueOf(0);
+		
+		for(LineItem lineItem : lineItems)
+		{
+			subtotal = subtotal.add(lineItem.getCost());
+		}
+		
+		return subtotal;
+	}
+	
+	public void printReceipt()
+	{
+		System.out.print("\nYour order:\n");
+		for(LineItem lineItem : lineItems)
+		{
+			System.out.println(String.format("%dx %s (%s) - $%.2f",lineItem.getQuantity(),lineItem.getName(),lineItem.getAddon(),lineItem.getCost()));
+		}
+		System.out.println(String.format("Subtotal: $%.2f",calculateSubtotal()));
+		System.out.println(String.format("Sales Tax: $%.2f",calculateSalesTax()));
+		System.out.print(String.format("Total: $%.2f",calculateSubtotal().add(calculateSalesTax())));
+	}
 }
