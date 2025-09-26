@@ -41,16 +41,16 @@ public class Order
 		
 		return subtotal;
 	}
-	
-	public void printReceipt()
+
+	public String formatItems()
 	{
-		System.out.print("\nYour order:\n");
+		String output = "";
+		
 		for(LineItem lineItem : lineItems)
 		{
-			System.out.println(String.format("%dx %s (%s) - $%.2f",lineItem.getQuantity(),lineItem.getName(),lineItem.getAddon(),lineItem.getCost()));
+			output += (String.format("%dx %s (%s) - $%.2f\n",lineItem.getQuantity(),lineItem.getName(),lineItem.getAddon(),lineItem.getCost()));
 		}
-		System.out.println(String.format("Subtotal: $%.2f",calculateSubtotal()));
-		System.out.println(String.format("Sales Tax: $%.2f",calculateSalesTax()));
-		System.out.print(String.format("Total: $%.2f",calculateSubtotal().add(calculateSalesTax())));
+		
+		return output;
 	}
 }

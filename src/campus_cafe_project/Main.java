@@ -12,36 +12,28 @@ public class Main
 	{	
 		Order order = new Order();
 		Menu menu = new Menu();
-		String menuOption = "";
 		System.out.println("\nWelcome to the Campus Cafe\n");
+		String menuOption = getMenuOption(menu);
 		
-		do
-		{
-			menu.displayMenu();
-			System.out.print("\nPlease make a selection (or type 'end' to finish): ");
-			menuOption = sc.nextLine();
-			
-			if(menuOption.trim().equalsIgnoreCase("end"))
-			{
-				break;
-			}
-			
+		while(!menuOption.trim().equalsIgnoreCase("end"))
+		{	
 			Product item = menu.getMenuItem(menuOption);
 			
-			if(item == null)
+			while(item == null)
 			{
-				System.out.println("Your selection is invalid.");
-				continue;
+				System.out.println("\nYour selection is invalid.\n");
+				item = menu.getMenuItem(getMenuOption(menu));
 			}
 			
-			System.out.print("Quantity: ");
-			int quantity = sc.nextInt();
-			while(quantity<=0)
+			System.out.print("\nQuantity: ");
+			int quantity = 0;
+			
+			while(!sc.hasNextInt() || (quantity = sc.nextInt())<=0)
 			{
-				System.out.println("Invalid Quantity");
-				System.out.print("Quantity: ");
-				quantity = sc.nextInt();
+				sc.nextLine();
+				System.out.print("\nInvalid Quantity.\nQuantity: ");
 			}
+		
 			sc.nextLine();
 			item.setQuantity(quantity);
 			
@@ -50,7 +42,7 @@ public class Main
 				BeverageSize beverageSize = getBeverageSize();
 				while(beverageSize == null)
 				{
-					System.out.println("Invalid Entry");
+					System.out.println("\nInvalid Entry");
 					beverageSize = getBeverageSize();
 				}
 				((Beverage) item).setBeverageSize(beverageSize);
@@ -60,25 +52,38 @@ public class Main
 				FoodAddon foodAddon = getFoodAddon();
 				while(foodAddon == null)
 				{
-					System.out.println("Invalid Entry");
+					System.out.println("\nInvalid Entry");
 					foodAddon = getFoodAddon();
 				}
 				((Food) item).setFoodAddon(foodAddon);
 			}
+			
 			System.out.println(String.format("\nYou selected: %s -- %s -- $%.2f -- %s -- x%d -- total price: $%.2f\n",
 					item.getId(), item.getName(), item.getBasePrice(), item.getModifierExtra(), item.getQuantity(), item.price()));
 			order.addLineItem(item);
+			
+			menuOption = getMenuOption(menu);
 		}
 		
-		while(!menuOption.equals("end"));
-		order.printReceipt();
+		System.out.println("\nYour order:");
+		System.out.print(order.formatItems());
+		System.out.print(String.format("\nSubtotal: $%.2f\nSales Tax: $%.2f\nTotal: $%.2f",
+				order.calculateSubtotal(),order.calculateSalesTax(),order.calculateSubtotal().add(order.calculateSalesTax())));
+	}
+	
+	private static String getMenuOption(Menu menu)
+	{
+		menu.displayMenu();
+		System.out.print("\nPlease make a selection (or type 'end' to finish): ");
+		return sc.nextLine();
 	}
 	
 	private static BeverageSize getBeverageSize()
 	{
-		System.out.print("Please Select (S)mall, (M)eduim, or (L)arge): ");
+		System.out.print("\nPlease Select (S)mall, (M)eduim, or (L)arge): ");
 		String sizeOption = sc.nextLine();
 		sizeOption = sizeOption.trim().toUpperCase();
+		
 		if(sizeOption.equals("M") || sizeOption.startsWith("MEDIUM"))
 		{
 			return BeverageSize.MEDIUM;
@@ -96,22 +101,23 @@ public class Main
 	
 	private static FoodAddon getFoodAddon()
 	{
-		System.out.println("Please select one of the following addons:\nAdd (C)heese\nNo (M)eat\n(B)oth Cheese and No Meat\n(N)o Addon");
+		System.out.print("\nThe following are all available addons:\nAdd (C)heese\nNo (M)eat\n(B)oth Cheese and No Meat\n(N)o Addon\n\nMake a selection: ");
 		String addonOption = sc.nextLine();
 		addonOption = addonOption.trim().toUpperCase();
+		
 		if(addonOption.equals("C") || addonOption.startsWith("ADD CHEESE"))
 		{
 			return FoodAddon.CHEESE;
 		}
-		if(addonOption.equals("M") || addonOption.startsWith("NO MEAT"))
+		else if(addonOption.equals("M") || addonOption.startsWith("NO MEAT"))
 		{
 			return FoodAddon.NOMEAT;
 		}
-		if(addonOption.equals("B") || addonOption.startsWith("BOTH CHEESE AND NO MEAT"))
+		else if(addonOption.equals("B") || addonOption.startsWith("BOTH CHEESE AND NO MEAT"))
 		{
 			return FoodAddon.BOTH;
 		}
-		if(addonOption.equals("N") || addonOption.startsWith("NO ADDON"))
+		else if(addonOption.equals("N") || addonOption.startsWith("NO ADDON"))
 		{
 			return FoodAddon.NONE;
 		}
