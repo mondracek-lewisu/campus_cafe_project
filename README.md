@@ -1,2 +1,2 @@
-# campus_cafe_project
-for me
+# Campus Cafe Assignment
+CPSC-24500-002
